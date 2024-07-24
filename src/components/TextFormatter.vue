@@ -15,6 +15,7 @@
         背景颜色:
         <input type="color" v-model="bgColor">
       </label>
+      <button @click="downloadImage">下载图片</button>
     </div>
     <div 
       class="output" 
@@ -27,7 +28,8 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed } from 'vue'
+import html2canvas from 'html2canvas'
 
 export default {
   name: 'TextFormatter',
@@ -37,8 +39,8 @@ export default {
     const textColor = ref('#000000')
     const bgColor = ref('#ffffff')
     const outputDiv = ref(null)
-    const outputWidth = ref(400)
-    const outputHeight = ref(300)
+    const outputWidth = ref(400) // 固定初始宽度
+    const outputHeight = ref(300) // 固定初始高度
 
     const outputStyle = computed(() => ({
       backgroundColor: bgColor.value,
@@ -82,12 +84,22 @@ export default {
       window.addEventListener('mouseup', stopResize)
     }
 
-    onMounted(() => {
+    const downloadImage = async () => {
       if (outputDiv.value) {
-        outputWidth.value = outputDiv.value.offsetWidth
-        outputHeight.value = outputDiv.value.offsetHeight
+        try {
+          const canvas = await html2canvas(outputDiv.value, {
+            backgroundColor: bgColor.value
+          })
+          const dataUrl = canvas.toDataURL('image/png')
+          const link = document.createElement('a')
+          link.download = '大字报.png'
+          link.href = dataUrl
+          link.click()
+        } catch (error) {
+          console.error('生成图片时出错:', error)
+        }
       }
-    })
+    }
 
     return {
       input,
@@ -97,7 +109,8 @@ export default {
       outputStyle,
       formattedText,
       outputDiv,
-      startResize
+      startResize,
+      downloadImage
     }
   }
 }
@@ -136,5 +149,18 @@ textarea {
 
 .text-block {
   margin-bottom: 10px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
 }
 </style>
