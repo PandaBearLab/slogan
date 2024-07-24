@@ -1,4 +1,3 @@
-// src/components/TextFormatter.vue
 <template>
   <div class="text-formatter">
     <div class="controls">
@@ -16,6 +15,7 @@
         <input type="color" v-model="bgColor">
       </label>
       <button @click="downloadImage">下载图片</button>
+      <!-- <button @click="shareToTwitter">分享到Twitter</button> -->
     </div>
     <div 
       class="output" 
@@ -39,8 +39,8 @@ export default {
     const textColor = ref('#000000')
     const bgColor = ref('#ffffff')
     const outputDiv = ref(null)
-    const outputWidth = ref(400) // 固定初始宽度
-    const outputHeight = ref(300) // 固定初始高度
+    const outputWidth = ref(400)
+    const outputHeight = ref(300)
 
     const outputStyle = computed(() => ({
       backgroundColor: bgColor.value,
@@ -71,8 +71,8 @@ export default {
       const resize = (e) => {
         const newWidth = startWidth + e.clientX - startX
         const newHeight = startHeight + e.clientY - startY
-        outputWidth.value = Math.max(200, newWidth) // 设置最小宽度
-        outputHeight.value = Math.max(100, newHeight) // 设置最小高度
+        outputWidth.value = Math.max(200, newWidth)
+        outputHeight.value = Math.max(100, newHeight)
       }
 
       const stopResize = () => {
@@ -84,21 +84,53 @@ export default {
       window.addEventListener('mouseup', stopResize)
     }
 
-    const downloadImage = async () => {
+    const generateImage = async () => {
       if (outputDiv.value) {
         try {
           const canvas = await html2canvas(outputDiv.value, {
             backgroundColor: bgColor.value
           })
-          const dataUrl = canvas.toDataURL('image/png')
-          const link = document.createElement('a')
-          link.download = '大字报.png'
-          link.href = dataUrl
-          link.click()
+          return canvas.toDataURL('image/png')
         } catch (error) {
           console.error('生成图片时出错:', error)
+          return null
         }
       }
+      return null
+    }
+
+    const downloadImage = async () => {
+      const dataUrl = await generateImage()
+      if (dataUrl) {
+        const link = document.createElement('a')
+        link.download = '大字报.png'
+        link.href = dataUrl
+        link.click()
+      }
+    }
+
+    const shareToTwitter = async () => {
+      const dataUrl = await generateImage()
+      if (dataUrl) {
+        // 这里我们需要上传图片到服务器并获取URL
+        // 为了演示，我们假设有一个uploadImage函数可以完成这个任务
+        const imageUrl = await uploadImage(dataUrl)
+        if (imageUrl) {
+          const tweetText = encodeURIComponent('看看我制作的大字报！')
+          const twitterUrl = `https://twitter.com/intent/tweet?text=${tweetText}&url=${encodeURIComponent(imageUrl)}`
+          window.open(twitterUrl, '_blank')
+        } else {
+          alert('分享失败，请稍后再试。')
+        }
+      }
+    }
+
+    // 这个函数需要在后端实现
+    const uploadImage = async (dataUrl) => {
+      // 这里应该是将dataUrl上传到服务器的逻辑
+      // 返回上传后的图片URL
+      // 为了演示，我们返回一个假的URL
+      return 'https://example.com/uploaded-image.png'
     }
 
     return {
@@ -110,7 +142,8 @@ export default {
       formattedText,
       outputDiv,
       startResize,
-      downloadImage
+      downloadImage,
+      shareToTwitter
     }
   }
 }
@@ -158,6 +191,7 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 button:hover {
