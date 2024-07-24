@@ -15,14 +15,19 @@
         背景颜色:
         <input type="color" v-model="bgColor">
       </label>
-      <button @click="generateText">生成文本</button>
     </div>
-    <div class="output" :style="outputStyle" v-html="output"></div>
+    <div 
+      class="output" 
+      :style="outputStyle" 
+      v-html="formattedText"
+      ref="outputDiv"
+      @mousedown="startResize"
+    ></div>
   </div>
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 export default {
   name: 'TextFormatter',
@@ -31,33 +36,68 @@ export default {
     const fontSize = ref(24)
     const textColor = ref('#000000')
     const bgColor = ref('#ffffff')
-    const output = ref('')
+    const outputDiv = ref(null)
+    const outputWidth = ref(400)
+    const outputHeight = ref(300)
 
     const outputStyle = computed(() => ({
       backgroundColor: bgColor.value,
       color: textColor.value,
-      fontSize: `${fontSize.value}px`
+      fontSize: `${fontSize.value}px`,
+      width: `${outputWidth.value}px`,
+      height: `${outputHeight.value}px`
     }))
 
-    const generateText = () => {
+    const formattedText = computed(() => {
       const lines = input.value.split('\n')
-      output.value = lines
+      return lines
         .filter(line => line.trim() !== '')
         .map(line => {
-          const randomFontSize = 24 + Math.floor(Math.random() * 24)
+          const randomFontSize = Math.max(fontSize.value, 24 + Math.floor(Math.random() * 24))
           return `<div class="text-block" style="font-size: ${randomFontSize}px;">${line}</div>`
         })
         .join('')
+    })
+
+    const startResize = (e) => {
+      e.preventDefault()
+      const startX = e.clientX
+      const startY = e.clientY
+      const startWidth = outputWidth.value
+      const startHeight = outputHeight.value
+
+      const resize = (e) => {
+        const newWidth = startWidth + e.clientX - startX
+        const newHeight = startHeight + e.clientY - startY
+        outputWidth.value = Math.max(200, newWidth) // 设置最小宽度
+        outputHeight.value = Math.max(100, newHeight) // 设置最小高度
+      }
+
+      const stopResize = () => {
+        window.removeEventListener('mousemove', resize)
+        window.removeEventListener('mouseup', stopResize)
+      }
+
+      window.addEventListener('mousemove', resize)
+      window.addEventListener('mouseup', stopResize)
     }
+
+    onMounted(() => {
+      if (outputDiv.value) {
+        outputWidth.value = outputDiv.value.offsetWidth
+        outputHeight.value = outputDiv.value.offsetHeight
+      }
+    })
 
     return {
       input,
       fontSize,
       textColor,
       bgColor,
-      output,
       outputStyle,
-      generateText
+      formattedText,
+      outputDiv,
+      startResize
     }
   }
 }
@@ -89,6 +129,9 @@ textarea {
   word-break: break-all;
   font-family: 'Huiwen Mingchao', Arial, sans-serif;
   text-align: left;
+  overflow: auto;
+  resize: both;
+  cursor: se-resize;
 }
 
 .text-block {
