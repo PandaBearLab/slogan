@@ -36,7 +36,7 @@ export default {
   setup() {
     const input = ref('')
     const fontSize = ref(24)
-    const textColor = ref('#000000')
+    const textColor = ref('#1D7738')
     const bgColor = ref('#ffffff')
     const outputDiv = ref(null)
     const outputWidth = ref(400)
