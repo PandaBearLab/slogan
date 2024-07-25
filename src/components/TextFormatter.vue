@@ -11,7 +11,7 @@
             <label class="block text-sm font-medium text-gray-700" for="font-size">
               字体大小
             </label>
-            <input class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
                    id="font-size" type="number" v-model.number="fontSize" min="12" max="72">
           </div>
           <div class="space-y-2">
@@ -25,7 +25,7 @@
             <label class="block text-sm font-medium text-gray-700" for="font-family">
               字体
             </label>
-            <select class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
                     id="font-family" v-model="fontFamily">
               <option value="'Huiwen Mingchao', Arial, sans-serif">明朝体</option>
               <option value="'SimHei', Arial, sans-serif">黑体</option>
@@ -37,7 +37,7 @@
             <label class="block text-sm font-medium text-gray-700" for="text-align">
               对齐方式
             </label>
-            <select class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
                     id="text-align" v-model="textAlign">
               <option value="left">左对齐</option>
               <option value="center">居中</option>
@@ -49,7 +49,7 @@
             <label class="block text-sm font-medium text-gray-700" for="line-height">
               行间距
             </label>
-            <input class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
                    id="line-height" type="number" v-model.number="lineHeight" min="1" max="3" step="0.1">
           </div>
           
@@ -58,7 +58,7 @@
             <label class="block text-sm font-medium text-gray-700" for="bg-type">
               背景类型
             </label>
-            <select class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
                     id="bg-type" v-model="bgType">
               <option value="solid">纯色</option>
               <option value="gradient">渐变色</option>
@@ -79,7 +79,7 @@
               <label class="block text-sm font-medium text-gray-700" for="gradient-type">
                 渐变类型
               </label>
-              <select class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+              <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
                       id="gradient-type" v-model="gradientType">
                 <option value="linear">线性渐变</option>
                 <option value="radial">径向渐变</option>
@@ -103,7 +103,7 @@
               <label class="block text-sm font-medium text-gray-700" for="gradient-direction">
                 渐变方向
               </label>
-              <select class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+              <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
                       id="gradient-direction" v-model="gradientDirection">
                 <option value="to right">从左到右</option>
                 <option value="to bottom">从上到下</option>
@@ -117,7 +117,7 @@
             <label class="block text-sm font-medium text-gray-700" for="bg-image">
               背景图片
             </label>
-            <input class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            <input class="w-full h-10 text-xs px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
                    id="bg-image" type="file" @change="handleBgImageUpload" accept="image/*">
           </div>
         </div>
