@@ -132,24 +132,28 @@
           </button>
         </div>
         
+        <!-- 输入区域 -->
+        <textarea
+          ref="textareaRef"
+          v-model="content"
+          class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow duration-300"
+          :style="{ resize: 'vertical', minHeight: '100px' }"
+          rows="5"
+        ></textarea>
+        
         <!-- 输出区域 -->
         <div 
-          class="output border rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow duration-300" 
+          class="output border rounded-lg p-4" 
           :style="outputStyle" 
           ref="outputDiv"
-          contenteditable="true"
-          @input="updateContent"
-          @paste="handlePaste"
-          @mousedown="startResize"
-          v-html="content">
-        </div>
+        >{{ content }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, computed, onMounted, watch,nextTick } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import html2canvas from 'html2canvas'
 
 export default {
@@ -162,8 +166,7 @@ export default {
     const textAlign = ref('left')
     const lineHeight = ref(1.5)
     const outputDiv = ref(null)
-    const outputWidth = ref('100%')
-    const outputHeight = ref('300px')
+    const textareaRef = ref(null)
     const content = ref('在这里输入你的文本...')
     const bgType = ref('solid')
     const gradientType = ref('linear')
@@ -188,80 +191,22 @@ export default {
         fontFamily: fontFamily.value,
         textAlign: textAlign.value,
         lineHeight: lineHeight.value,
-        width: outputWidth.value,
-        minHeight: outputHeight.value,
-        maxHeight: 'none'
+        width: '100%',
+        minHeight: '300px',
+        maxHeight: 'none',
+        whiteSpace: 'pre-wrap',
+        wordWrap: 'break-word'
       }
     })
 
-    
-
-    const startResize = (e) => {
-      const rect = outputDiv.value.getBoundingClientRect()
-      const isResizeArea = (e.clientX > rect.right - 20 && e.clientY > rect.bottom - 20)
-      if (!isResizeArea) return
-
-      e.preventDefault()
-      const startX = e.clientX
-      const startY = e.clientY
-      const startWidth = rect.width
-      const startHeight = rect.height
-
-      const resize = (e) => {
-        const newWidth = startWidth + e.clientX - startX
-        const newHeight = startHeight + e.clientY - startY
-        outputWidth.value = `${Math.max(200, newWidth)}px`
-        outputHeight.value = `${Math.max(100, newHeight)}px`
+    const handleBgImageUpload = (e) => {
+      const file = e.target.files[0]
+      if (file) {
+        const reader = new FileReader()
+        reader.onload = (e) => bgImage.value = e.target.result
+        reader.readAsDataURL(file)
       }
-
-      const stopResize = () => {
-        window.removeEventListener('mousemove', resize)
-        window.removeEventListener('mouseup', stopResize)
-      }
-
-      window.addEventListener('mousemove', resize)
-      window.addEventListener('mouseup', stopResize)
     }
-    const updateContent = (e) => {
-      const selection = window.getSelection()
-      const range = selection.getRangeAt(0)
-      const offset = range.startOffset
-      
-      content.value = e.target.innerHTML
-      
-      // After the next DOM update, restore the cursor position
-      nextTick(() => {
-        const newRange = document.createRange()
-        newRange.setStart(outputDiv.value.childNodes[0], offset)
-        newRange.collapse(true)
-        selection.removeAllRanges()
-        selection.addRange(newRange)
-      })
-    }
-
-    const handlePaste = (e) => {
-      e.preventDefault()
-      const text = (e.clipboardData || window.clipboardData).getData('text/plain')
-      
-      const selection = window.getSelection()
-      if (!selection.rangeCount) return
-
-      const range = selection.getRangeAt(0)
-      range.deleteContents()
-      
-      const textNode = document.createTextNode(text)
-      range.insertNode(textNode)
-      
-      // Move the cursor to the end of the inserted text
-      range.setStartAfter(textNode)
-      range.collapse(true)
-      selection.removeAllRanges()
-      selection.addRange(range)
-
-      // Manually trigger content update
-      content.value = outputDiv.value.innerHTML
-    }
-
 
     const generateImage = async () => {
       if (outputDiv.value) {
@@ -295,8 +240,6 @@ export default {
       fontFamily.value = "'Huiwen Mingchao', Arial, sans-serif"
       textAlign.value = 'left'
       lineHeight.value = 1.5
-      outputWidth.value = '100%'
-      outputHeight.value = '300px'
       content.value = '在这里输入你的文本...'
       bgType.value = 'solid'
       gradientType.value = 'linear'
@@ -306,24 +249,17 @@ export default {
       bgImage.value = ''
     }
 
-    const handleBgImageUpload = (e) => {
-      const file = e.target.files[0]
-      if (file) {
-        const reader = new FileReader()
-        reader.onload = (e) => bgImage.value = e.target.result
-        reader.readAsDataURL(file)
-      }
-    }
-
     onMounted(() => {
-      if (outputDiv.value) {
-        outputDiv.value.innerHTML = content.value
+      if (textareaRef.value) {
+        textareaRef.value.style.height = 'auto'
+        textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`
       }
     })
 
-    watch([content, fontSize, textColor, bgColor, fontFamily, textAlign, lineHeight, bgType, gradientType, gradientColor1, gradientColor2, gradientDirection, bgImage], () => {
-      if (outputDiv.value) {
-        outputDiv.value.innerHTML = content.value
+    watch(content, () => {
+      if (textareaRef.value) {
+        textareaRef.value.style.height = 'auto'
+        textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`
       }
     })
 
@@ -336,11 +272,10 @@ export default {
       lineHeight,
       outputStyle,
       outputDiv,
+      textareaRef,
       content,
-      startResize,
       downloadImage,
       resetSettings,
-      updateContent,
       bgType,
       gradientType,
       gradientColor1,
@@ -352,3 +287,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.output {
+  position: relative;
+  overflow: auto;
+}
+</style>
