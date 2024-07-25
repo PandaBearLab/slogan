@@ -1,7 +1,7 @@
 
 <template>
   <div id="app">
-    <h1>大字报</h1>
+    <h1 >大字报</h1>
     <TextFormatter />
   </div>
 </template>
