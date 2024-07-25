@@ -149,7 +149,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch,nextTick } from 'vue'
 import html2canvas from 'html2canvas'
 
 export default {
@@ -222,29 +222,45 @@ export default {
       window.addEventListener('mousemove', resize)
       window.addEventListener('mouseup', stopResize)
     }
-
     const updateContent = (e) => {
+      const selection = window.getSelection()
+      const range = selection.getRangeAt(0)
+      const offset = range.startOffset
+      
       content.value = e.target.innerHTML
+      
+      // After the next DOM update, restore the cursor position
+      nextTick(() => {
+        const newRange = document.createRange()
+        newRange.setStart(outputDiv.value.childNodes[0], offset)
+        newRange.collapse(true)
+        selection.removeAllRanges()
+        selection.addRange(newRange)
+      })
     }
- 
 
     const handlePaste = (e) => {
-      console.log("1111")
       e.preventDefault()
       const text = (e.clipboardData || window.clipboardData).getData('text/plain')
       
       const selection = window.getSelection()
       if (!selection.rangeCount) return
 
-      selection.deleteFromDocument()
-      selection.getRangeAt(0).insertNode(document.createTextNode(text))
-      selection.collapseToEnd()
+      const range = selection.getRangeAt(0)
+      range.deleteContents()
+      
+      const textNode = document.createTextNode(text)
+      range.insertNode(textNode)
+      
+      // Move the cursor to the end of the inserted text
+      range.setStartAfter(textNode)
+      range.collapse(true)
+      selection.removeAllRanges()
+      selection.addRange(range)
 
-      console.log("text=", text)
-      // 手动触发内容更新
-      content.value = outputDiv.value.textContent
+      // Manually trigger content update
+      content.value = outputDiv.value.innerHTML
     }
-
 
 
     const generateImage = async () => {
