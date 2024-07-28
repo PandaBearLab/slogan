@@ -1,18 +1,23 @@
 
 <template>
   <div id="app">
-    <h1 >大字报</h1>
+    
     <TextFormatter />
+    <ContactInfo></ContactInfo>
   </div>
 </template>
 
 <script>
 import TextFormatter from './components/TextFormatter.vue'
+import ContactInfo from './components/ContactInfo.vue';
+
+
 
 export default {
   name: 'App',
   components: {
-    TextFormatter
+    TextFormatter,
+    ContactInfo
   }
 }
 </script>
