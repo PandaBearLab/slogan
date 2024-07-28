@@ -293,10 +293,11 @@ export default {
       const deltaX = e.clientX - startX.value
       const deltaY = e.clientY - startY.value
       
-      if (resizeDirection.value.includes('e')) {
+      
+      if (resizeDirection.value && resizeDirection.value.includes('e')) {
         outputWidth.value = Math.max(100, outputWidth.value + deltaX)
       }
-      if (resizeDirection.value.includes('s')) {
+      if (resizeDirection.value && resizeDirection.value.includes('s')) {
         outputHeight.value = Math.max(100, outputHeight.value + deltaY)
       }
 
