@@ -121,6 +121,21 @@
                    id="bg-image" type="file" @change="handleBgImageUpload" accept="image/*">
           </div>
         </div>
+        <!-- 在控制区域添加这些输入框 -->
+      <div class="space-y-2">
+        <label class="block text-sm font-medium text-gray-700" for="output-width">
+          输出宽度 (px)
+        </label>
+        <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+              id="output-width" type="number" v-model.number="outputWidth" min="100">
+      </div>
+      <div class="space-y-2">
+        <label class="block text-sm font-medium text-gray-700" for="output-height">
+          输出高度 (px)
+        </label>
+        <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+              id="output-height" type="number" v-model.number="outputHeight" min="100">
+      </div>
         
         <!-- 操作按钮 -->
         <div class="flex flex-wrap gap-4">
@@ -142,18 +157,28 @@
         ></textarea>
         
         <!-- 输出区域 -->
-        <div 
-          class="output border rounded-lg p-4" 
-          :style="outputStyle" 
-          ref="outputDiv"
-        >{{ content }}</div>
+        <div class="relative">
+          <div 
+            class="output border rounded-lg p-4" 
+            :style="outputStyle" 
+            ref="outputDiv"
+            @mousedown="startResize"
+          >{{ content }}</div>
+          <div class="resize-handle resize-e" @mousedown="(e) => startResize(e, 'e')"></div>
+          <div class="resize-handle resize-s" @mousedown="(e) => startResize(e, 's')"></div>
+          <div class="resize-handle resize-se" @mousedown="(e) => startResize(e, 'se')"></div>
+
+          <div class="absolute bottom-0 right-0 p-1 bg-gray-200 text-xs">
+            {{ outputWidth }} x {{ outputHeight }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted , watch } from 'vue'
 import html2canvas from 'html2canvas'
 
 export default {
@@ -174,6 +199,14 @@ export default {
     const gradientColor2 = ref('#000000')
     const gradientDirection = ref('to right')
     const bgImage = ref('')
+        // 新增的状态变量
+    const outputWidth = ref(800)
+    const outputHeight = ref(600)
+    const isResizing = ref(false)
+    const startX = ref(0)
+    const startY = ref(0)  
+    const resizeDirection = ref('')
+
 
     const outputStyle = computed(() => {
       let backgroundValue = bgColor.value
@@ -183,6 +216,7 @@ export default {
         backgroundValue = `url(${bgImage.value}) center/cover no-repeat`
       }
       
+      
       return {
         backgroundColor: bgType.value === 'solid' ? bgColor.value : 'transparent',
         background: backgroundValue,
@@ -191,11 +225,19 @@ export default {
         fontFamily: fontFamily.value,
         textAlign: textAlign.value,
         lineHeight: lineHeight.value,
-        width: '100%',
+        // width: '100%',
         minHeight: '300px',
         maxHeight: 'none',
         whiteSpace: 'pre-wrap',
-        wordWrap: 'break-word'
+        wordWrap: 'break-word',
+        width: `${outputWidth.value}px`,
+        height: `${outputHeight.value}px`,
+        // resize: 'both',
+        // overflow: 'auto',
+        
+        resize: 'none', // 移除浏览器默认的resize行为
+        overflow: 'hidden', // 防止内容溢出
+        position: 'relative', // 为自定义resize句柄定位
       }
     })
 
@@ -208,11 +250,43 @@ export default {
       }
     }
 
-    const generateImage = async () => {
+ 
+
+
+    const startResize = (e, direction) => {
+      isResizing.value = true
+      resizeDirection.value = direction
+      e.preventDefault()
+    }
+
+    const stopResize = () => {
+      isResizing.value = false
+      resizeDirection.value = ''
+    }
+
+    const resize = (e) => {
+      if (!isResizing.value) return
+
+      const rect = outputDiv.value.getBoundingClientRect()
+      
+      if (resizeDirection.value.includes('e')) {
+        outputWidth.value = Math.max(100, e.clientX - rect.left)
+      }
+      if (resizeDirection.value.includes('s')) {
+        outputHeight.value = Math.max(100, e.clientY - rect.top)
+      }
+    }
+
+
+
+ // 修改生成图片的方法
+ const generateImage = async () => {
       if (outputDiv.value) {
         try {
           const canvas = await html2canvas(outputDiv.value, {
-            backgroundColor: null
+            backgroundColor: null,
+            width: outputWidth.value,
+            height: outputHeight.value
           })
           return canvas.toDataURL('image/png')
         } catch (error) {
@@ -222,6 +296,7 @@ export default {
       }
       return null
     }
+
 
     const downloadImage = async () => {
       const dataUrl = await generateImage()
@@ -254,7 +329,16 @@ export default {
         textareaRef.value.style.height = 'auto'
         textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`
       }
+      window.addEventListener('mousemove', resize)
+      window.addEventListener('mouseup', stopResize)
     })
+
+      // 在组件卸载时移除事件监听器
+      onUnmounted(() => {
+      window.removeEventListener('mousemove', resize)
+      window.removeEventListener('mouseup', stopResize)
+    })
+
 
     watch(content, () => {
       if (textareaRef.value) {
@@ -282,7 +366,10 @@ export default {
       gradientColor2,
       gradientDirection,
       bgImage,
-      handleBgImageUpload
+      handleBgImageUpload,
+      outputWidth,
+      outputHeight,
+      startResize,
     }
   }
 }
@@ -291,6 +378,32 @@ export default {
 <style scoped>
 .output {
   position: relative;
-  overflow: auto;
+  overflow: hidden;
+}
+.resize-handle {
+  position: absolute;
+  background-color: #4299e1;
+  opacity: 0.5;
+}
+.resize-e {
+  top: 0;
+  right: 0;
+  width: 5px;
+  height: 100%;
+  cursor: e-resize;
+}
+.resize-s {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  cursor: s-resize;
+}
+.resize-se {
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  cursor: se-resize;
 }
 </style>
