@@ -177,7 +177,7 @@
 
     <!-- 右侧预览区域 -->
     <div class="w-full lg:w-2/3">
-      <div class="sticky top-4">
+      <div class="sticky top-4 ">
         <div class="bg-white shadow-lg rounded-lg overflow-hidden">
           <div class="p-6">
             <h3 class="text-xl font-bold text-gray-800 mb-4">预览</h3>
@@ -192,10 +192,11 @@
                 <span v-if="textDirection === 'vertical'" class="vertical-text">{{ content }}</span>
                 <span v-else>{{ content }}</span>
               </div>
-              <div class="resize-handle resize-e" @mousedown="(e) => startResize(e, 'e')"></div>
-              <div class="resize-handle resize-s" @mousedown="(e) => startResize(e, 's')"></div>
-              <div class="resize-handle resize-se" @mousedown="(e) => startResize(e, 'se')"></div>
-
+              <div class="p-4">
+                <div class="resize-handle resize-e" @mousedown="(e) => startResize(e, 'e')"></div>
+                <div class="resize-handle resize-s" @mousedown="(e) => startResize(e, 's')"></div>
+                <div class="resize-handle resize-se" @mousedown="(e) => startResize(e, 'se')"></div>
+            </div>
               <div class="absolute bottom-0 right-0 p-1 bg-gray-200 text-xs">
                 {{ outputWidth }} x {{ outputHeight }}
               </div>
@@ -229,7 +230,7 @@ export default {
     const gradientColor2 = ref('#000000')
     const gradientDirection = ref('to right')
     const bgImage = ref('')
-    const outputWidth = ref(600)
+    const outputWidth = ref(800)
     const outputHeight = ref(600)
     const isResizing = ref(false)
     const startX = ref(0)
@@ -419,7 +420,7 @@ export default {
   cursor: e-resize;
 }
 .resize-s {
-  bottom: 0;
+  bottom: 10;
   left: 0;
   width: 100%;
   height: 5px;
