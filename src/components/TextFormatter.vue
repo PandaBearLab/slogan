@@ -1,175 +1,205 @@
 <template>
-  <div class="container mx-auto p-4 max-w-4xl">
-    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-      <div class="p-6 space-y-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">文本排版工具</h2>
-        
-        <!-- 控制区域 -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <!-- 字体控制 -->
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700" for="font-size">
-              字体大小
-            </label>
-            <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                   id="font-size" type="number" v-model.number="fontSize" min="12" max="72">
-          </div>
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700" for="text-color">
-              文本颜色
-            </label>
-            <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                   id="text-color" type="color" v-model="textColor">
-          </div>
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700" for="font-family">
-              字体
-            </label>
-            <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                    id="font-family" v-model="fontFamily">
-              <option value="'Huiwen Mingchao', Arial, sans-serif">明朝体</option>
-              <option value="'SimHei', Arial, sans-serif">黑体</option>
-              <option value="'KaiTi', Arial, sans-serif">楷体</option>
-              <option value="'FangSong', Arial, sans-serif">仿宋</option>
-            </select>
-          </div>
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700" for="text-align">
-              对齐方式
-            </label>
-            <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                    id="text-align" v-model="textAlign">
-              <option value="left">左对齐</option>
-              <option value="center">居中</option>
-              <option value="right">右对齐</option>
-              <option value="justify">两端对齐</option>
-            </select>
-          </div>
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700" for="line-height">
-              行间距
-            </label>
-            <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                   id="line-height" type="number" v-model.number="lineHeight" min="1" max="3" step="0.1">
-          </div>
+  <div class="container mx-auto p-4 flex flex-col lg:flex-row gap-4 max-w-screen-2xl">
+    <!-- 左侧控制面板 -->
+    <div class="w-full lg:w-1/3 space-y-4">
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="p-6 space-y-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4">文本排版工具</h2>
           
-          <!-- 背景控制 -->
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700" for="bg-type">
-              背景类型
-            </label>
-            <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                    id="bg-type" v-model="bgType">
-              <option value="solid">纯色</option>
-              <option value="gradient">渐变色</option>
-              <option value="image">图片</option>
-            </select>
-          </div>
-          
-          <div v-if="bgType === 'solid'" class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700" for="bg-color">
-              背景颜色
-            </label>
-            <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                   id="bg-color" type="color" v-model="bgColor">
-          </div>
-          
-          <template v-if="bgType === 'gradient'">
+          <!-- 控制区域 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <!-- 字体控制 -->
             <div class="space-y-2">
-              <label class="block text-sm font-medium text-gray-700" for="gradient-type">
-                渐变类型
+              <label class="block text-sm font-medium text-gray-700" for="font-size">
+                字体大小
+              </label>
+              <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                     id="font-size" type="number" v-model.number="fontSize" min="12" max="72">
+            </div>
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700" for="text-color">
+                文本颜色
+              </label>
+              <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                     id="text-color" type="color" v-model="textColor">
+            </div>
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700" for="font-family">
+                字体
               </label>
               <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                      id="gradient-type" v-model="gradientType">
-                <option value="linear">线性渐变</option>
-                <option value="radial">径向渐变</option>
+                      id="font-family" v-model="fontFamily">
+                <option value="'Huiwen Mingchao', Arial, sans-serif">明朝体</option>
+                <option value="'SimHei', Arial, sans-serif">黑体</option>
+                <option value="'KaiTi', Arial, sans-serif">楷体</option>
+                <option value="'FangSong', Arial, sans-serif">仿宋</option>
               </select>
             </div>
             <div class="space-y-2">
-              <label class="block text-sm font-medium text-gray-700" for="gradient-color-1">
-                渐变颜色1
-              </label>
-              <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                     id="gradient-color-1" type="color" v-model="gradientColor1">
-            </div>
-            <div class="space-y-2">
-              <label class="block text-sm font-medium text-gray-700" for="gradient-color-2">
-                渐变颜色2
-              </label>
-              <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                     id="gradient-color-2" type="color" v-model="gradientColor2">
-            </div>
-            <div v-if="gradientType === 'linear'" class="space-y-2">
-              <label class="block text-sm font-medium text-gray-700" for="gradient-direction">
-                渐变方向
+              <label class="block text-sm font-medium text-gray-700" for="text-align">
+                对齐方式
               </label>
               <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                      id="gradient-direction" v-model="gradientDirection">
-                <option value="to right">从左到右</option>
-                <option value="to bottom">从上到下</option>
-                <option value="to bottom right">左上到右下</option>
-                <option value="to bottom left">右上到左下</option>
+                      id="text-align" v-model="textAlign">
+                <option value="left">左对齐</option>
+                <option value="center">居中</option>
+                <option value="right">右对齐</option>
+                <option value="justify">两端对齐</option>
               </select>
             </div>
-          </template>
-          
-          <div v-if="bgType === 'image'" class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700" for="bg-image">
-              背景图片
-            </label>
-            <input class="w-full h-10 text-xs px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                   id="bg-image" type="file" @change="handleBgImageUpload" accept="image/*">
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700" for="line-height">
+                行间距
+              </label>
+              <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                     id="line-height" type="number" v-model.number="lineHeight" min="1" max="3" step="0.1">
+            </div>
+            
+            <!-- 文字方向控制 -->
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700" for="text-direction">
+                文字方向
+              </label>
+              <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                      id="text-direction" v-model="textDirection">
+                <option value="horizontal">横向</option>
+                <option value="vertical">纵向</option>
+              </select>
+            </div>
+            
+            <!-- 背景控制 -->
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700" for="bg-type">
+                背景类型
+              </label>
+              <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                      id="bg-type" v-model="bgType">
+                <option value="solid">纯色</option>
+                <option value="gradient">渐变色</option>
+                <option value="image">图片</option>
+              </select>
+            </div>
+            
+            <div v-if="bgType === 'solid'" class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700" for="bg-color">
+                背景颜色
+              </label>
+              <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                     id="bg-color" type="color" v-model="bgColor">
+            </div>
+            
+            <template v-if="bgType === 'gradient'">
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700" for="gradient-type">
+                  渐变类型
+                </label>
+                <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                        id="gradient-type" v-model="gradientType">
+                  <option value="linear">线性渐变</option>
+                  <option value="radial">径向渐变</option>
+                </select>
+              </div>
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700" for="gradient-color-1">
+                  渐变颜色1
+                </label>
+                <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                       id="gradient-color-1" type="color" v-model="gradientColor1">
+              </div>
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700" for="gradient-color-2">
+                  渐变颜色2
+                </label>
+                <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                       id="gradient-color-2" type="color" v-model="gradientColor2">
+              </div>
+              <div v-if="gradientType === 'linear'" class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700" for="gradient-direction">
+                  渐变方向
+                </label>
+                <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                        id="gradient-direction" v-model="gradientDirection">
+                  <option value="to right">从左到右</option>
+                  <option value="to bottom">从上到下</option>
+                  <option value="to bottom right">左上到右下</option>
+                  <option value="to bottom left">右上到左下</option>
+                </select>
+              </div>
+            </template>
+            
+            <div v-if="bgType === 'image'" class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700" for="bg-image">
+                背景图片
+              </label>
+              <input class="w-full h-10 text-xs px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                     id="bg-image" type="file" @change="handleBgImageUpload" accept="image/*">
+            </div>
           </div>
+          <!-- 输出尺寸控制 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700" for="output-width">
+                输出宽度 (px)
+              </label>
+              <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    id="output-width" type="number" v-model.number="outputWidth" min="100">
+            </div>
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700" for="output-height">
+                输出高度 (px)
+              </label>
+              <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    id="output-height" type="number" v-model.number="outputHeight" min="100">
+            </div>
+          </div>
+          
+          <!-- 操作按钮 -->
+          <div class="flex flex-wrap gap-4">
+            <button @click="downloadImage" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-300">
+              下载图片
+            </button>
+            <button @click="resetSettings" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-300">
+              重置设置
+            </button>
+          </div>
+          
+          <!-- 输入区域 -->
+          <textarea
+            ref="textareaRef"
+            v-model="content"
+            class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow duration-300"
+            :style="{ resize: 'vertical', minHeight: '100px' }"
+            rows="5"
+          ></textarea>
         </div>
-        <!-- 在控制区域添加这些输入框 -->
-      <div class="space-y-2">
-        <label class="block text-sm font-medium text-gray-700" for="output-width">
-          输出宽度 (px)
-        </label>
-        <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-              id="output-width" type="number" v-model.number="outputWidth" min="100">
       </div>
-      <div class="space-y-2">
-        <label class="block text-sm font-medium text-gray-700" for="output-height">
-          输出高度 (px)
-        </label>
-        <input class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-              id="output-height" type="number" v-model.number="outputHeight" min="100">
-      </div>
-        
-        <!-- 操作按钮 -->
-        <div class="flex flex-wrap gap-4">
-          <button @click="downloadImage" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-300">
-            下载图片
-          </button>
-          <button @click="resetSettings" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-300">
-            重置设置
-          </button>
-        </div>
-        
-        <!-- 输入区域 -->
-        <textarea
-          ref="textareaRef"
-          v-model="content"
-          class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow duration-300"
-          :style="{ resize: 'vertical', minHeight: '100px' }"
-          rows="5"
-        ></textarea>
-        
-        <!-- 输出区域 -->
-        <div class="relative">
-          <div 
-            class="output border rounded-lg p-4" 
-            :style="outputStyle" 
-            ref="outputDiv"
-            @mousedown="startResize"
-          >{{ content }}</div>
-          <div class="resize-handle resize-e" @mousedown="(e) => startResize(e, 'e')"></div>
-          <div class="resize-handle resize-s" @mousedown="(e) => startResize(e, 's')"></div>
-          <div class="resize-handle resize-se" @mousedown="(e) => startResize(e, 'se')"></div>
+    </div>
 
-          <div class="absolute bottom-0 right-0 p-1 bg-gray-200 text-xs">
-            {{ outputWidth }} x {{ outputHeight }}
+    <!-- 右侧预览区域 -->
+    <div class="w-full lg:w-2/3">
+      <div class="sticky top-4">
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">预览</h3>
+            <!-- 输出区域 -->
+            <div class="relative" >
+              <div 
+                class="output border rounded-lg p-4" 
+                :style="outputStyle" 
+                ref="outputDiv"
+                @mousedown="startResize"
+              >
+                <span v-if="textDirection === 'vertical'" class="vertical-text">{{ content }}</span>
+                <span v-else>{{ content }}</span>
+              </div>
+              <div class="resize-handle resize-e" @mousedown="(e) => startResize(e, 'e')"></div>
+              <div class="resize-handle resize-s" @mousedown="(e) => startResize(e, 's')"></div>
+              <div class="resize-handle resize-se" @mousedown="(e) => startResize(e, 'se')"></div>
+
+              <div class="absolute bottom-0 right-0 p-1 bg-gray-200 text-xs">
+                {{ outputWidth }} x {{ outputHeight }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -178,7 +208,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onUnmounted , watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import html2canvas from 'html2canvas'
 
 export default {
@@ -188,7 +218,7 @@ export default {
     const textColor = ref('#1D7738')
     const bgColor = ref('#ffffff')
     const fontFamily = ref("'Huiwen Mingchao', Arial, sans-serif")
-    const textAlign = ref('left')
+    const textAlign = ref('center')
     const lineHeight = ref(1.5)
     const outputDiv = ref(null)
     const textareaRef = ref(null)
@@ -199,14 +229,13 @@ export default {
     const gradientColor2 = ref('#000000')
     const gradientDirection = ref('to right')
     const bgImage = ref('')
-        // 新增的状态变量
-    const outputWidth = ref(800)
+    const outputWidth = ref(600)
     const outputHeight = ref(600)
     const isResizing = ref(false)
     const startX = ref(0)
     const startY = ref(0)  
     const resizeDirection = ref('')
-
+    const textDirection = ref('horizontal')
 
     const outputStyle = computed(() => {
       let backgroundValue = bgColor.value
@@ -216,7 +245,6 @@ export default {
         backgroundValue = `url(${bgImage.value}) center/cover no-repeat`
       }
       
-      
       return {
         backgroundColor: bgType.value === 'solid' ? bgColor.value : 'transparent',
         background: backgroundValue,
@@ -225,19 +253,15 @@ export default {
         fontFamily: fontFamily.value,
         textAlign: textAlign.value,
         lineHeight: lineHeight.value,
-        // width: '100%',
-        minHeight: '300px',
-        maxHeight: 'none',
-        whiteSpace: 'pre-wrap',
-        wordWrap: 'break-word',
         width: `${outputWidth.value}px`,
         height: `${outputHeight.value}px`,
-        // resize: 'both',
-        // overflow: 'auto',
-        
-        resize: 'none', // 移除浏览器默认的resize行为
-        overflow: 'hidden', // 防止内容溢出
-        position: 'relative', // 为自定义resize句柄定位
+        whiteSpace: 'pre-wrap',
+        wordWrap: 'break-word',
+        resize: 'none',
+        overflow: 'auto',
+        position: 'relative',
+        writingMode: textDirection.value === 'vertical' ? 'vertical-rl' : 'horizontal-tb',
+        textOrientation: textDirection.value === 'vertical' ? 'upright' : 'mixed',
       }
     })
 
@@ -250,12 +274,11 @@ export default {
       }
     }
 
- 
-
-
     const startResize = (e, direction) => {
       isResizing.value = true
       resizeDirection.value = direction
+      startX.value = e.clientX
+      startY.value = e.clientY
       e.preventDefault()
     }
 
@@ -267,36 +290,36 @@ export default {
     const resize = (e) => {
       if (!isResizing.value) return
 
-      const rect = outputDiv.value.getBoundingClientRect()
+      const deltaX = e.clientX - startX.value
+      const deltaY = e.clientY - startY.value
       
       if (resizeDirection.value.includes('e')) {
-        outputWidth.value = Math.max(100, e.clientX - rect.left)
+        outputWidth.value = Math.max(100, outputWidth.value + deltaX)
       }
       if (resizeDirection.value.includes('s')) {
-        outputHeight.value = Math.max(100, e.clientY - rect.top)
+        outputHeight.value = Math.max(100, outputHeight.value + deltaY)
       }
+
+      startX.value = e.clientX
+      startY.value = e.clientY
     }
 
-
-
- // 修改生成图片的方法
- const generateImage = async () => {
-      if (outputDiv.value) {
-        try {
-          const canvas = await html2canvas(outputDiv.value, {
-            backgroundColor: null,
-            width: outputWidth.value,
-            height: outputHeight.value
-          })
-          return canvas.toDataURL('image/png')
-        } catch (error) {
-          console.error('生成图片时出错:', error)
-          return null
-        }
+    const generateImage = async () => {
+      if (!outputDiv.value) return null
+      console.log(outputDiv.value)
+      try {
+        const canvas = await html2canvas(outputDiv.value, {
+          backgroundColor: null,
+          scale: 2, // 提高输出质量
+          logging: false, // 禁用日志以提高性能
+          useCORS: true, // 允许加载跨域图片
+        })
+        return canvas.toDataURL('image/png')
+      } catch (error) {
+        console.error('生成图片时出错:', error)
+        return null
       }
-      return null
     }
-
 
     const downloadImage = async () => {
       const dataUrl = await generateImage()
@@ -322,6 +345,9 @@ export default {
       gradientColor2.value = '#000000'
       gradientDirection.value = 'to right'
       bgImage.value = ''
+      outputWidth.value = 800
+      outputHeight.value = 600
+      textDirection.value = 'horizontal'
     }
 
     onMounted(() => {
@@ -333,12 +359,10 @@ export default {
       window.addEventListener('mouseup', stopResize)
     })
 
-      // 在组件卸载时移除事件监听器
-      onUnmounted(() => {
+    onUnmounted(() => {
       window.removeEventListener('mousemove', resize)
       window.removeEventListener('mouseup', stopResize)
     })
-
 
     watch(content, () => {
       if (textareaRef.value) {
@@ -370,6 +394,7 @@ export default {
       outputWidth,
       outputHeight,
       startResize,
+      textDirection,
     }
   }
 }
@@ -405,5 +430,9 @@ export default {
   width: 10px;
   height: 10px;
   cursor: se-resize;
+}
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
 }
 </style>
