@@ -1,7 +1,7 @@
 /* 汇文明朝体 */
 @font-face {
   font-family: '汇文明朝体';
-  src: url('./fonts/Huiwen_mingchao.woff2') format('woff2');
+  src: url('https://cdn.ishell.online/pubic/Huiwen_mingchao.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -10,7 +10,7 @@
 /* OPPO Sans */
 @font-face {
   font-family: 'OPPO Sans';
-  src: url('./fonts/OPPOSans-B.ttf') format('truetype');
+  src: url('https://cdn.ishell.online/pubic/OPPOSans-B.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -18,32 +18,16 @@
 
 @font-face {
   font-family: 'OPPO Sans';
-  src: url('./fonts/OPPOSans-H.ttf') format('truetype');
+  src: url('https://cdn.ishell.online/pubic/OPPOSans-H.ttf') format('truetype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 
-/* 站酷字体 */
-@font-face {
-  font-family: '全字库正黑体';
-  src: url('./fonts/全字库正黑体-98_1.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: '全字库正黑体Plus';
-  src: url('./fonts/全字库正黑体-Plus-98_1.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
 
 @font-face {
   font-family: '全字库简文楷体';
-  src: url('./fonts/全字库简文楷字体 (1).ttf') format('truetype');
+  src: url('https://cdn.ishell.online/pubic/全字库简文楷字体.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -52,7 +36,7 @@
 /* 其他自定义字体 */
 @font-face {
   font-family: '包圆小白体';
-  src: url('./fonts/包圆小白体.ttf') format('truetype');
+  src: url('https://cdn.ishell.online/pubic/包圆小白体.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -60,7 +44,7 @@
 
 @font-face {
   font-family: '思源黑体';
-  src: url('./fonts/思源黑体-ExtraLight.otf') format('opentype');
+  src: url('https://cdn.ishell.online/pubic/思源黑体-ExtraLight.otf') format('opentype');
   font-weight: 200;
   font-style: normal;
   font-display: swap;
@@ -68,7 +52,7 @@
 
 @font-face {
   font-family: '思源黑体';
-  src: url('./fonts/思源黑体-Heavy.otf') format('opentype');
+  src: url('https://cdn.ishell.online/pubic/思源黑体-Heavy.otf') format('opentype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -76,7 +60,7 @@
 
 @font-face {
   font-family: '麻手锋黑体';
-  src: url('./fonts/麻手锋黑体.ttf') format('truetype');
+  src: url('https://cdn.ishell.online/pubic/麻手锋黑体.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -84,7 +68,7 @@
 
 @font-face {
   font-family: '调英风格体';
-  src: url('./fonts/调英风格体.ttf') format('truetype');
+  src: url('https://cdn.ishell.online/pubic/调英风格体.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -92,7 +76,7 @@
 
 @font-face {
   font-family: '站酷小薇LOGO体';
-  src: url('./fonts/站酷小薇LOGO体.otf') format('opentype');
+  src: url('https://cdn.ishell.online/pubic/站酷小薇LOGO体.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -100,7 +84,7 @@
 
 @font-face {
   font-family: '胡晓波男神体';
-  src: url('./fonts/胡晓波男神体.otf') format('opentype');
+  src: url('https://cdn.ishell.online/pubic/胡晓波男神体.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -108,7 +92,7 @@
 
 @font-face {
   font-family: '胡晓波真帅体';
-  src: url('./fonts/胡晓波真帅体.otf') format('opentype');
+  src: url('https://cdn.ishell.online/pubic/胡晓波真帅体.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -118,7 +102,7 @@
 
 @font-face {
   font-family: '胡晓波骚包体';
-  src: url('./fonts/胡晓波骚包合格.otf') format('opentype');
+  src: url('https://cdn.ishell.online/pubic/胡晓波骚包体.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -126,7 +110,7 @@
 
 @font-face {
   font-family: '贤二体';
-  src: url('./fonts/贤二体.ttf') format('truetype');
+  src: url('https://cdn.ishell.online/pubic/贤二体.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -134,7 +118,7 @@
 
 @font-face {
   font-family: "全字庫正楷體";
-  src: url("./fonts/全字庫正楷體.ttf") format('truetype');
+  src: url("https://cdn.ishell.online/pubic/全字庫正楷體.ttf") format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -142,7 +126,7 @@
 
 @font-face {
   font-family: "全字庫正楷體plus";
-  src: url("./fonts/全字庫正楷體plus.ttf") format('truetype');
+  src: url("https://cdn.ishell.online/pubic/全字庫正楷體plus.ttf") format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -150,7 +134,7 @@
 
 @font-face {
   font-family: "包图小白体";
-  src: url("./fonts/包图小白体.ttf") format('truetype');
+  src: url("https://cdn.ishell.online/pubic/包图小白体.ttf") format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -158,7 +142,7 @@
 
 @font-face {
   font-family: "手书体";
-  src: url("./fonts/手书体.ttf") format('truetype');
+  src: url("https://cdn.ishell.online/pubic/手书体.ttf") format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -167,7 +151,7 @@
 
 @font-face {
   font-family: "春风楷";
-  src: url("./fonts/演示春风楷.ttf") format('truetype');
+  src: url("https://cdn.ishell.online/pubic/演示春风楷.ttf") format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

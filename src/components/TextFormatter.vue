@@ -245,7 +245,6 @@ export default {
   { name: 'OPPO Sans 超粗体', value: "'OPPO Sans', sans-serif" },
   { name: '全字庫正楷體', value: "'全字庫正楷體', sans-serif" },
   { name: '全字庫正楷體plus', value: "'全字庫正楷體plus', sans-serif" },
-  { name: '全字库简文楷体', value: "'全字库简文楷体', serif" },
   { name: '包图小白体', value: "'包图小白体', sans-serif" },
   { name: '思源黑体 极细', value: "'思源黑体', sans-serif" },
   { name: '思源黑体 超粗', value: "'思源黑体', sans-serif" },
