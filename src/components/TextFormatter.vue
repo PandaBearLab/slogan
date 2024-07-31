@@ -27,12 +27,11 @@
               <label class="block text-sm font-medium text-gray-700" for="font-family">
                 字体
               </label>
-              <select class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                      id="font-family" v-model="fontFamily">
-                <option value="'Huiwen Mingchao', Arial, sans-serif">明朝体</option>
-                <option value="'SimHei', Arial, sans-serif">黑体</option>
-                <option value="'KaiTi', Arial, sans-serif">楷体</option>
-                <option value="'FangSong', Arial, sans-serif">仿宋</option>
+              <select  v-model="selectedFont" class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"  id="font-family" >
+                <option v-for="(font, index) in fontFamilies" :key="index" :value="font.value" >
+                  {{ font.name  }}
+                  
+                </option>
               </select>
             </div>
             <div class="space-y-2">
@@ -209,16 +208,19 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { ref,reactive, computed, onMounted, onUnmounted, watch } from 'vue'
 import html2canvas from 'html2canvas'
+
+
 
 export default {
   name: 'TextFormatter',
+
   setup() {
     const fontSize = ref(24)
     const textColor = ref('#1D7738')
     const bgColor = ref('#ffffff')
-    const fontFamily = ref("'Huiwen Mingchao', Arial, sans-serif")
+    
     const textAlign = ref('center')
     const lineHeight = ref(1.5)
     const outputDiv = ref(null)
@@ -237,6 +239,28 @@ export default {
     const startY = ref(0)  
     const resizeDirection = ref('')
     const textDirection = ref('horizontal')
+    const fontFamilies = reactive([
+  { name: '汇文明朝体', value: "'汇文明朝体', serif" },
+  { name: 'OPPO Sans 粗体', value: "'OPPO Sans', sans-serif" },
+  { name: 'OPPO Sans 超粗体', value: "'OPPO Sans', sans-serif" },
+  { name: '全字庫正楷體', value: "'全字庫正楷體', sans-serif" },
+  { name: '全字庫正楷體plus', value: "'全字庫正楷體plus', sans-serif" },
+  { name: '全字库简文楷体', value: "'全字库简文楷体', serif" },
+  { name: '包图小白体', value: "'包图小白体', sans-serif" },
+  { name: '思源黑体 极细', value: "'思源黑体', sans-serif" },
+  { name: '思源黑体 超粗', value: "'思源黑体', sans-serif" },
+  { name: '春风楷', value: "'春风楷', sans-serif" },
+  { name: '站酷小薇LOGO体', value: "'站酷小薇LOGO体', sans-serif" },
+  { name: '胡晓波男神体', value: "'胡晓波男神体', sans-serif" },
+  { name: '胡晓波真帅体', value: "'胡晓波真帅体', sans-serif" },
+  { name: '胡晓波骚包体', value: "'胡晓波骚包体', sans-serif" },
+  { name: '贤二体', value: "'贤二体', sans-serif" }
+]);
+
+  
+    const selectedFont = ref(fontFamilies[0].value)
+    const fontFamily = selectedFont
+   
 
     const outputStyle = computed(() => {
       let backgroundValue = bgColor.value
@@ -263,6 +287,8 @@ export default {
         position: 'relative',
         writingMode: textDirection.value === 'vertical' ? 'vertical-rl' : 'horizontal-tb',
         textOrientation: textDirection.value === 'vertical' ? 'upright' : 'mixed',
+        fontFamilies,
+        selectedFont,
       }
     })
 
@@ -397,6 +423,8 @@ export default {
       outputHeight,
       startResize,
       textDirection,
+      selectedFont ,
+      fontFamilies,
     }
   }
 }
